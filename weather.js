@@ -23,32 +23,36 @@ function searchWeather(searchTerm){
 	//.then(result) is used to delay the loading of the page so that the resulting information from the API can be gotten before the page continues to load
 }
 function init(resultFromServer){
-	//console.log(resultFromServer);
+	console.log(resultFromServer);
 	switch(resultFromServer.weather[0].main){
 		case "Clear":
-			document.body.style.backgroundImage = 'url("clear.jpg")';
+			document.body.style.backgroundImage = 'url("clear.jpeg")';
 			break;
 
 		case "Clouds":
-			document.body.style.backgroundImage = 'url("cloudy.jpg")';
+			document.body.style.backgroundImage = 'url("cloudy.jpeg")';
 			break;
 
 		case "Rain":
 		case "Drizzle":
 		case "Mist":
-			document.body.style.backgroundImage = 'url("rain.jpg")';
+			document.body.style.backgroundImage = 'url("rain.jpeg")';
 			break;
 
 		case "Thunderstorm":
-			document.body.style.backgroundImage = 'url("storm.jpg")';
+			document.body.style.backgroundImage = 'url("storm.jpeg")';
 			break;
 
 		case "Snow":
-			document.body.style.backgroundImage = 'url("snow.jpg")';
+			document.body.style.backgroundImage = 'url("snow.jpeg")';
+			break;
+
+		case "Haze":
+			document.body.style.backgroundImage = 'url("haze.jpeg")';
 			break;
 
 		default:
-			document.body.style.backgroundImage = 'url("default.jpg")';
+			document.body.style.backgroundImage = 'url("default.jpeg")';
 			break;
 	}
 
@@ -58,16 +62,19 @@ function init(resultFromServer){
 	let windSpeedElement = document.getElementById('windSpeed');
 	let cityHeader = document.getElementById('cityHeader');
 	let weatherIcon = document.getElementById('documentIconImg');
+	let coordLatitude = document.getElementById('latitude');
+	let coordLongitude = document.getElementById('longitude');
 
 	weatherIcon.src = 'http://openweathermap.org/img/w/' + resultFromServer.weather[0].icon + '.png';
 	let resultDescription  = resultFromServer.weather[0].description;
 	weatherDescriptionHeader.innerText = resultDescription.charAt(0).toUpperCase() + resultDescription.slice(1);
 
 	temperatureElement.innerHTML = Math.floor(resultFromServer.main.temp) + '&#176';
-	windSpeedElement.innerHTML = "Wind Speed is currently at " + Math.floor(resultFromServer) + 'm/s';
+	windSpeedElement.innerHTML = "Wind Speed is " + Math.floor(resultFromServer.wind.speed) + 'm/s';
 	cityHeader.innerHTML = resultFromServer.name;
-	humidityElement.innerHTML = 'Humidity level is at ' + resultFromServer.main.humidity + '%';
-
+	humidityElement.innerHTML = 'Humidity level is ' + resultFromServer.main.humidity + '%';
+	coordLatitude.innerText = 'Latitude ' + resultFromServer.coord.lat;
+	coordLongitude.innerText = 'Longitude ' +resultFromServer.coord.lon;
 
 	setPositionForWeatherInfo();
 }
